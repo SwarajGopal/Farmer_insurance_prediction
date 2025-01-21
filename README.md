@@ -1,4 +1,4 @@
 # Farmer_insurance_prediction
-##Abstract
+
 
 Farmers are vital to the agricultural value chain, yet they face significant challenges such as crop failures, natural disasters, and market price volatility. These uncertainties adversely affect their earnings and financial stability, leaving many farmers uninsured or underinsured. This project aims to address these issues by analyzing the factors influencing insurance pricing and developing predictive models to forecast premiums accurately. By utilizing the PMFBY dataset, the study seeks to provide predictive insights into agricultural production and pricing, ultimately guiding policy changes to create a fairer value distribution for farmers. The comprehensive approach combines the merits of both agriculture and insurance fields, with the goal of offering actionable insights that support farmers and enhance financial stability in the agricultural sector.
