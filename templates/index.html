@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Share Value Prediction</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('/api/placeholder/1920/1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .hero-pattern {
+            background-color: #52fa84;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            height: 200px;
+        }
+        
+        .hero-overlay {
+            background: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Modified form styles to make it transparent */
+        .form-container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(3px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Made input fields semi-transparent */
+        .input-field {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            @apply w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent;
+            color: black;
+        }
+
+        .input-field::placeholder {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Made select fields semi-transparent */
+        .select-field {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            @apply w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent;
+            color: black;
+        }
+
+        /* Enhanced label visibility against transparent background */
+        .form-label {
+            color: black;
+            font-weight: 600;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Hero Section -->
+    <div class="hero-pattern h-96 relative mb-8">
+        <div class="hero-overlay"></div>
+        <div class="relative z-10 h-full flex items-center justify-center">
+            <div class="text-center text-white px-4">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Farmer Share Value Prediction</h1>
+                <p class="text-xl md:text-2xl">Accurate predictions for better agricultural planning</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 pb-12">
+        <div class="max-w-4xl mx-auto form-container shadow-lg p-8">
+            <form action="{{ url_for('predict') }}" method="POST" class="space-y-6">
+                <!-- Numeric Inputs Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="sumInsured">Sum Insured</label>
+                        <input type="number" id="sumInsured" name="sumInsured" class="input-field" step="any" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="farmerShare">Farmer Share</label>
+                        <input type="number" id="farmerShare" name="farmerShare" class="input-field" step="any" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="stateShare">State Share</label>
+                        <input type="number" id="stateShare" name="stateShare" class="input-field" step="any" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="stateShareValue">State Share Value</label>
+                        <input type="number" id="stateShareValue" name="stateShareValue" class="input-field" step="any" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="premiumRate">Premium Rate</label>
+                        <input type="number" id="premiumRate" name="premiumRate" class="input-field" step="any" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="goiShare">GOI Share</label>
+                        <input type="number" id="goiShare" name="goiShare" class="input-field" step="any" required>
+                    </div>
+                   
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="IndemnityLevel">IndemnityLevel</label>
+                        <input type="number" id="indemnityLevel" name="indemnityLevel" class="input-field" step="any" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="sssyName_seasonName">Season Name</label>
+                        <select id="sssyName_seasonName" name="sssyName_seasonName" class="select-field" required>
+                            <option value="" disabled selected>Select Season</option>
+                            <option value="Kharif">Kharif</option>
+                            <option value="Rabi">Rabi</option>
+                        </select><br><br>
+                    </div>                    
+
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="goiShareValue">GOI Share Value</label>
+                        <input type="number" id="goiShareValue" name="goiShareValue" class="input-field" step="any" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="Policy Term (Days)">Policy Term (Days)</label>
+                        <input type="number" id="Policy Term (Days)" name="Policy Term (Days)" class="input-field" step="any" required>
+                    </div>
+                    
+
+                </div>
+
+                <!-- Categorical Inputs Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="sssyName_year">Year</label>
+                        <input type="number" id="sssyName_year" name="sssyName_year" class="input-field" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="sssyName_stateName">State</label>
+                        <select id="state" name="sssyName_stateName" class="select-field" required>
+                            <option value="" disabled selected>Select State</option>
+                            <option value="goa">Goa</option>
+                            <option value="haryana">Haryana</option>
+                            <option value="chhattisgarh">Chhattisgarh</option>
+                            <option value="assam">Assam</option>
+                            <option value="andaman nicobar islands">Andaman & Nicobar Islands</option>
+                            <option value="andhra pradesh">Andhra Pradesh</option>
+                            <option value="madhya pradesh">Madhya Pradesh</option>
+                            <option value="gujarat">Gujarat</option>
+                            <option value="maharashtra">Maharashtra</option>
+                            <option value="uttarakhand">Uttarakhand</option>
+                            <option value="west_bengal">West Bengal</option>
+                            <option value="tamil nadu">Tamil Nadu</option>
+                            <option value="andaman_nicobar_islands_duplicate">Andaman Nicobar Islands</option>
+                            <option value="rajasthan">Rajasthan</option>
+                            <option value="himachal pradesh">Himachal Pradesh</option>
+                            <option value="manipur">Manipur</option>
+                            <option value="odisha">Odisha</option>
+                            <option value="sikkim">Sikkim</option>
+                            <option value="meghalaya">Meghalaya</option>
+                            <option value="uttar_pradesh">Uttar Pradesh</option>
+                            <option value="kerala">Kerala</option>
+                            <option value="tripura">Tripura</option>
+                            <option value="puducherry">Puducherry</option>
+                            <option value="jammu kashmir">Jammu and Kashmir</option>
+                            <option value="telangana">Telangana</option>
+                            <option value="jharkhand">Jharkhand</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="categoryName">Category Name</label>
+                        <select id="categoryName" name="categoryName" class="select-field" required>
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="0">Pulses</option>
+                            <option value="1">Oilseeds</option>
+                            <option value="2">Fiber Crops</option>
+                            <option value="3">Millets</option>
+                            <option value="4">Cereals</option>
+                            <option value="5">Fruits</option>
+                            <option value="6">Vegetables</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="insuranceCompanyName">Insurance Company</label>
+                        <select id="insurance_company" name="insuranceCompanyName" class="select-field" required>
+                            <option value="" disabled selected>Select Insurance Company</option>
+                            <option value="future_generali">FUTURE GENERALI INDIA INSURANCE CO. LTD.</option>
+                            <option value="bajaj_allianz">BAJAJ ALLIANZ GENERAL INSURANCE CO. LTD</option>
+                            <option value="sbi_general">SBI GENERAL INSURANCE</option>
+                            <option value="oriental_insurance">ORIENTAL INSURANCE</option>
+                            <option value="universal_sompo">UNIVERSAL SOMPO GENERAL INSURANCE COMPANY</option>
+                            <option value="agriculture_insurance">AGRICULTURE INSURANCE COMPANY</option>
+                            <option value="national_insurance">NATIONAL INSURANCE COMPANY LIMITED</option>
+                            <option value="hdfc_ergo">HDFC ERGO GENERAL INSURANCE CO. LTD.</option>
+                            <option value="iffco_tokio">IFFCO TOKIO GENERAL INSURANCE CO. LTD.</option>
+                            <option value="reliance_general">RELIANCE GENERAL INSURANCE CO. LTD.</option>
+                            <option value="bharti_axa">BHARTI AXA GENERAL INSURANCE COMPANY LTD.</option>
+                            <option value="new_india_assurance">NEW INDIA ASSURANCE COMPANY</option>
+                            <option value="icici_lombard">ICICI LOMBARD GENERAL INSURANCE CO. LTD.</option>
+                            <option value="united_india_insurance">UNITED INDIA INSURANCE CO.</option>
+                            <option value="royal_sundaram">ROYAL SUNDARAM GENERAL INSURANCE CO. LIMITED</option>
+                            <option value="cholamandalam_ms">CHOLAMANDALAM MS GENERAL INSURANCE COMPANY LIMITED</option>
+                            <option value="tata_aig">TATA AIG GENERAL INSURANCE CO. LTD.</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="isPreviousSeasonYearInSubsidy">Is Previous Season Year In Subsidy</label>
+                        <select id="isPreviousSeasonYearInSubsidy" name="isPreviousSeasonYearInSubsidy" class="select-field" required>
+                            <option value="" disabled selected>Select Option</option>
+                            <option value="True">True</option>
+                            <option value="False">False</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label block text-sm font-medium mb-2" for="firstGoiSubsidy">First GOI Subsidy</label>
+                        <select id="firstGoiSubsidy" name="firstGoiSubsidy" class="select-field" required>
+                            <option value="" disabled selected>Select Option</option>
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                        </select>
+                    </div>
+                    
+                    <style>
+                        body {
+                            background-image: url('https://images.unsplash.com/photo-1524486361537-8ad15938e1a3?q=80&w=1769&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+                        }
+                        </style>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-center mt-8">
+                    <button type="submit" class="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transform transition-all duration-200 hover:scale-105">
+                        Predict Value
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
